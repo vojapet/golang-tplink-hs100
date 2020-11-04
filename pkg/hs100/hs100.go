@@ -137,9 +137,10 @@ func (hs100 *Hs100) GetCurrentPowerConsumption() (PowerConsumption, error) {
 }
 
 type PowerConsumption struct {
-	Current float32
-	Voltage float32
-	Power   float32
+	Current     float32
+	Voltage     float32
+	Power       float32
+	TotalEnergy float32
 }
 
 func powerConsumption(resp string) (PowerConsumption, error) {
@@ -155,9 +156,10 @@ func powerConsumption(resp string) (PowerConsumption, error) {
 type powerConsumptionResponse struct {
 	Emeter struct {
 		RealTime struct {
-			Current float32 `json:"current"`
-			Voltage float32 `json:"voltage"`
-			Power   float32 `json:"power"`
+			Current       float32 `json:"current_ma"`
+			Voltage       float32 `json:"voltage_mv"`
+			Power         float32 `json:"power_mw"`
+			TotalEnergy   float32 `json:"total_wh"`
 		} `json:"get_realtime"`
 	} `json:"emeter"`
 }
@@ -167,5 +169,6 @@ func (r *powerConsumptionResponse) toPowerConsumption() PowerConsumption {
 		Current: r.Emeter.RealTime.Current,
 		Voltage: r.Emeter.RealTime.Voltage,
 		Power:   r.Emeter.RealTime.Power,
+		TotalEnergy: r.Emeter.RealTime.TotalEnergy,
 	}
 }
