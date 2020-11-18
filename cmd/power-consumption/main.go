@@ -1,14 +1,17 @@
 package main
 
 import (
-	"github.com/vojapet/golang-tplink-hs100/pkg/configuration"
-	"github.com/vojapet/golang-tplink-hs100/pkg/hs100"
+	"github.com/vojapet/golang-tplink-hs100/pkg/hs1x0"
 	"log"
 	"os"
+	"flag"
 )
 
 func main() {
-	h := hs100.NewHs100("192.168.2.100", configuration.Default())
+	ip := flag.String("ip", "192.168.1.100", "Smart plug IP.")
+	flag.Parse()
+
+	h := hs1x0.NewHs110(*ip)
 
 	p, err := h.GetCurrentPowerConsumption()
 	if err != nil {
@@ -17,7 +20,7 @@ func main() {
 	}
 
 	log.Println("Current Power consumption:")
-	log.Printf("Voltage: %fV", p.Voltage)
-	log.Printf("Current: %fA", p.Current)
-	log.Printf("Power: %fW", p.Power)
+	log.Printf("Voltage: %d mV", p.Voltage)
+	log.Printf("Current: %d mA", p.Current)
+	log.Printf("Power: %d mW", p.Power)
 }

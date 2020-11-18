@@ -1,14 +1,16 @@
 package main
 
 import (
-	"github.com/vojapet/golang-tplink-hs100/pkg/configuration"
-	"github.com/vojapet/golang-tplink-hs100/pkg/hs100"
+	"github.com/vojapet/golang-tplink-hs100/pkg/hs1x0"
 	"time"
+	"flag"
 )
 
 func main() {
+	ip := flag.String("ip", "192.168.1.100", "Smart plug IP.")
+	flag.Parse()
 
-	h := hs100.NewHs100("localhost", configuration.Default())
+	h := hs1x0.NewHs110(*ip)
 
 	println("Name of device:")
 	name, _ := h.GetName()

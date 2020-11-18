@@ -1,16 +1,16 @@
 package main
 
 import (
-	"github.com/vojapet/golang-tplink-hs100/pkg/configuration"
-	"github.com/vojapet/golang-tplink-hs100/pkg/hs100"
+	"github.com/vojapet/golang-tplink-hs100/pkg/hs1x0"
 	"log"
-	"time"
+	"flag"
 )
 
 func main() {
-	devices, err := hs100.Discover("192.168.2.0/24",
-		configuration.Default().WithTimeout(time.Second),
-	)
+	ipRange := flag.String("ip-range", "192.168.1.0/24", "Ip range for discovery.")
+	flag.Parse()
+
+	devices, err := hs1x0.Discover(*ipRange)
 
 	if err != nil {
 		panic(err)
@@ -19,6 +19,6 @@ func main() {
 	log.Printf("Found devices: %d", len(devices))
 	for _, d := range devices {
 		name, _ := d.GetName()
-		log.Printf("Device name: %s", name)
+		log.Printf("Device name: '%s', ip: '%s'", name, d.GetIp())
 	}
 }
