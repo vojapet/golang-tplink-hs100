@@ -4,7 +4,6 @@ import (
 	"github.com/pkg/errors"
 	"net"
 	"sync"
-	"fmt"
 )
 
 type Barrier struct {
@@ -46,8 +45,6 @@ func Discover(subnet string) ([]*Hs110, error) {
 	}
 	wg.Wait()
 
-	fmt.Println("")
-	
 	return result.devices, nil
 }
 
@@ -56,8 +53,6 @@ func tryIp(r *discoverResult, wg *sync.WaitGroup, ip string, b *Barrier) {
 	b.enter()
 	defer b.exit()
 
-	fmt.Print(".")
-	
 	hs110 := NewHs110(ip)
 	_, err := hs110.GetName()
 	if err != nil {
