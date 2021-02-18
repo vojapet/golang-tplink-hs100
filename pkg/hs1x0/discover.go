@@ -37,7 +37,7 @@ func Discover(subnet string) ([]*Hs110, error) {
 		Mutex:   sync.Mutex{},
 	}
 
-	b := NewBarrier (10)	
+	b := NewBarrier (10)
 	var wg sync.WaitGroup
 	wg.Add(len(ips))
 	for _, current := range ips {
@@ -81,10 +81,15 @@ func getIpAddresses(subnet string) ([]string, error) {
 		ips = append(ips, ip.String())
 	}
 
-	return ips[1 : len(ips)-1], nil
+	if len(ips) <= 1 {
+		//empty net or "single ip net" - kinda non standard behaviour to allow ask for single address
+		return ips, nil
+	} else {
+		//removing reserved addresses (first and last - net and broadcast)
+		return ips[1 : len(ips)-1], nil
+	}
 }
 
-//  http://play.golang.org/p/m8TNTtygK0
 func inc(ip net.IP) {
 	for j := len(ip) - 1; j > 0; j-- {
 		ip[j]++
