@@ -20,3 +20,8 @@ type MonthlyConsumption struct {
 	Year      int
 	Energy_Wh int
 }
+
+type AP struct {
+	SSID    string
+	KeyType int
+}

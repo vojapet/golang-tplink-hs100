@@ -7,8 +7,27 @@ import (
 type Envelope struct {
 	System *System `mapstructure:"system"`
 	Emeter *Emeter `mapstructure:"emeter"`
+	Netif  *Netif  `mapstructure:"netif"`
 }
 
+type Netif struct {
+	ScanInfo   *ScanInfo   `mapstructure:"get_scaninfo"`
+	SetStaInfo *SetStaInfo `mapstructure:"set_stainfo"`
+}
+
+type ScanInfo struct {
+	ApList    []Ap `mapstructure:"ap_list"`
+	ErrorCode int  `mapstructure:"error_code"`
+}
+
+type SetStaInfo struct {
+	ErrorCode int `mapstructure:"error_code"`
+}
+
+type Ap struct {
+	KeyType int    `mapstructure:"key_type"`
+	SSID    string `mapstructure:"ssid"`
+}
 
 type Emeter struct {
 	RealTime  *RealTime  `mapstructure:"get_realtime"`
@@ -84,4 +103,3 @@ type NextAction struct {
 type SetRelayState struct {
 	ErrorCode int `mapstructure:"err_code"`
 }
-

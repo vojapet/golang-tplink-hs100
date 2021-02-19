@@ -60,6 +60,26 @@ func PickRealTime(emeter Emeter) (RealTime, error) {
 	return RealTime{}, errors.New("Emeter is nil")
 }
 
+func PickNetif(envelope Envelope) (Netif, error) {
+	if envelope.Netif != nil {
+		return *envelope.Netif, nil
+	}
+	return Netif{}, errors.New("Netif is nil")
+}
+
+func PickScanInfo(netif Netif) (ScanInfo, error) {
+	if netif.ScanInfo != nil {
+		return *netif.ScanInfo, nil
+	}
+	return ScanInfo{}, errors.New("ScanInfo is nil")
+}
+
+func PickSetStaInfo(netif Netif) (SetStaInfo, error) {
+	if netif.SetStaInfo != nil {
+		return *netif.SetStaInfo, nil
+	}
+	return SetStaInfo{}, errors.New("SetStaInfo is nil")
+}
 
 func CreateSetRelayState(response Response) (SetRelayState, error) {
 	envelope, err := DecodeResponse(response)
@@ -154,4 +174,42 @@ func CreateMonthStat(response Response) (MonthStat, error) {
 	}
 
 	return monthStat, nil
+}
+
+func CreateScanInfo(response Response) (ScanInfo, error) {
+	envelope, err := DecodeResponse(response)
+	if err != nil {
+		return ScanInfo{}, err
+	}
+
+	netif, err := PickNetif(envelope)
+	if err != nil {
+		return ScanInfo{}, err
+	}
+
+	scanInfo, err := PickScanInfo(netif)
+	if err != nil {
+		return ScanInfo{}, err
+	}
+
+	return scanInfo, nil
+}
+
+func CreateSetStaInfo(response Response) (SetStaInfo, error) {
+	envelope, err := DecodeResponse(response)
+	if err != nil {
+		return SetStaInfo{}, err
+	}
+
+	netif, err := PickNetif(envelope)
+	if err != nil {
+		return SetStaInfo{}, err
+	}
+
+	setStaInfo, err := PickSetStaInfo(netif)
+	if err != nil {
+		return SetStaInfo{}, err
+	}
+
+	return setStaInfo, nil
 }

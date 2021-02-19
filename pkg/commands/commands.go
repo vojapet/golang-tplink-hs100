@@ -98,12 +98,43 @@ func Build_SetLedOff(off int) System_subcommand {
 //
 // WLAN Commands
 // ========================================
+
+type Netif_subcommand pair
+
+func Build_Netif(subQueries ...Netif_subcommand) pair {
+	netif := make(map[string]interface{})
+	for _, subQuery := range subQueries {
+		netif[subQuery.key] = subQuery.value
+	}
+	return pair{key: "netif", value: netif}
+}
+
 // Scan for list of available APs
 // {"netif":{"get_scaninfo":{"refresh":1}}}
-//
+func Build_GetScanInfo() Netif_subcommand {
+	scanInfo := make(map[string]int)
+	scanInfo["refresh"] = 1
+	return Netif_subcommand{key: "get_scaninfo", value: scanInfo}
+}
+
+
 // Connect to AP with given SSID and Password
 // {"netif":{"set_stainfo":{"ssid":"WiFi","password":"secret","key_type":3}}}
-//
+
+func Build_SetStaInfo(aSSID string, aPassword string, aKeyType int) Netif_subcommand {
+	staInfo := struct {
+		SSID     string `json:"ssid"`
+		Password string `json:"password"`
+		KeyType  int    `json:"key_type"`
+	}{
+		aSSID,
+		aPassword,
+		aKeyType,
+	}
+
+	return Netif_subcommand{key: "set_stainfo", value: staInfo}
+}
+
 //
 // Cloud Commands
 // ========================================

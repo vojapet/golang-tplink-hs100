@@ -179,3 +179,49 @@ func (hs110 *Hs110) GetMonthStat() ([]MonthlyConsumption, error) {
 
 	return result, nil
 }
+
+func (hs110 *Hs110) GetScanInfo() ([]AP, error) {
+	result := []AP{}
+
+	resp, err := hs110.CommandExecutor.Execute(
+		commands.BuildQuery(commands.Build_Netif(commands.Build_GetScanInfo())))
+
+	if err !=nil {
+		return result, errors.Wrap(err, "Error while executing the command.")
+	}
+
+	scanInfo, err := commands.CreateScanInfo(resp)
+	if err != nil {
+		return result, err
+	}
+
+	if scanInfo.ErrorCode != 0 {
+		return result, errors.New(fmt.Sprintf("Device returned error code '%d'", scanInfo.ErrorCode))
+	}
+
+	for _, ap := range(scanInfo.ApList) {
+		result = append(result, AP{ap.SSID, ap.KeyType})
+	}
+
+	return result, nil
+}
+
+func (hs110 *Hs110) SetStaInfo(aSSID string, aPassword string) error {
+	resp, err := hs110.CommandExecutor.Execute(
+		commands.BuildQuery(commands.Build_Netif(commands.Build_SetStaInfo(aSSID, aPassword, 3))))
+
+	if err !=nil {
+		return errors.Wrap(err, "Error while executing the command.")
+	}
+
+	setStaInfo, err := commands.CreateSetStaInfo(resp)
+	if err != nil {
+		return err
+	}
+
+	if setStaInfo.ErrorCode != 0 {
+		return errors.New(fmt.Sprintf("Device returned error code '%d'", setStaInfo.ErrorCode))
+	}
+
+	return nil
+}
