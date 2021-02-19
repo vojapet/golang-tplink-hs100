@@ -81,6 +81,13 @@ func PickSetStaInfo(netif Netif) (SetStaInfo, error) {
 	return SetStaInfo{}, errors.New("SetStaInfo is nil")
 }
 
+func PickSetDevAlias(system System) (SetDevAlias, error) {
+	if system.SetDevAlias != nil {
+		return *system.SetDevAlias, nil
+	}
+	return SetDevAlias{}, errors.New("SetDevAlias is nil")
+}
+
 func CreateSetRelayState(response Response) (SetRelayState, error) {
 	envelope, err := DecodeResponse(response)
 	if err != nil {
@@ -212,4 +219,23 @@ func CreateSetStaInfo(response Response) (SetStaInfo, error) {
 	}
 
 	return setStaInfo, nil
+}
+
+func CreateSetDevAlias(response Response) (SetDevAlias, error) {
+	envelope, err := DecodeResponse(response)
+	if err != nil {
+		return SetDevAlias{}, err
+	}
+
+	system, err := PickSystem(envelope)
+	if err != nil {
+		return SetDevAlias{}, err
+	}
+
+	setDevAlias, err := PickSetDevAlias(system)
+	if err != nil {
+		return SetDevAlias{}, err
+	}
+
+	return setDevAlias, nil
 }

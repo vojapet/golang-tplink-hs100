@@ -69,6 +69,7 @@ type MonthStat struct {
 type System struct {
 	SysInfo       *SysInfo       `mapstructure:"get_sysinfo"`
 	SetRelayState *SetRelayState `mapstructure:"set_relay_state"`
+	SetDevAlias   *SetDevAlias   `mapstructure:"set_dev_alias"`
 }
 
 type SysInfo struct {
@@ -101,5 +102,9 @@ type NextAction struct {
 }
 
 type SetRelayState struct {
+	ErrorCode int `mapstructure:"err_code"`
+}
+
+type SetDevAlias struct {
 	ErrorCode int `mapstructure:"err_code"`
 }

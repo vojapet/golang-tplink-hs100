@@ -58,7 +58,13 @@ func Build_SetLedOff(off int) System_subcommand {
 
 // Set Device Alias
 // {"system":{"set_dev_alias":{"alias":"supercool plug"}}}
-//
+
+func Build_SetDevAlias(anAlias string) System_subcommand {
+	alias := make(map[string]string)
+	alias["alias"] = anAlias
+	return System_subcommand{key: "set_dev_alias", value: alias}
+}
+
 // Set MAC Address
 // {"system":{"set_mac_addr":{"mac":"50-C7-BF-01-02-03"}}}
 //

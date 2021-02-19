@@ -225,3 +225,23 @@ func (hs110 *Hs110) SetStaInfo(aSSID string, aPassword string) error {
 
 	return nil
 }
+
+func (hs110 *Hs110) SetDevAlias(anAlias string) error {
+	resp, err := hs110.CommandExecutor.Execute(
+		commands.BuildQuery(commands.Build_System(commands.Build_SetDevAlias(anAlias))))
+
+	if err !=nil {
+		return errors.Wrap(err, "Error while executing the command.")
+	}
+
+	setDevAlias, err := commands.CreateSetDevAlias(resp)
+	if err != nil {
+		return err
+	}
+
+	if setDevAlias.ErrorCode != 0 {
+		return errors.New(fmt.Sprintf("Device returned error code '%d'", setDevAlias.ErrorCode))
+	}
+
+	return nil
+}
