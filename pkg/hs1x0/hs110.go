@@ -206,9 +206,9 @@ func (hs110 *Hs110) GetScanInfo() ([]AP, error) {
 	return result, nil
 }
 
-func (hs110 *Hs110) SetStaInfo(aSSID string, aPassword string) error {
+func (hs110 *Hs110) SetStaInfo(aSSID string, aPassword string, aKeyType int) error {
 	resp, err := hs110.CommandExecutor.Execute(
-		commands.BuildQuery(commands.Build_Netif(commands.Build_SetStaInfo(aSSID, aPassword, 3))))
+		commands.BuildQuery(commands.Build_Netif(commands.Build_SetStaInfo(aSSID, aPassword, aKeyType))))
 
 	if err !=nil {
 		return errors.Wrap(err, "Error while executing the command.")
