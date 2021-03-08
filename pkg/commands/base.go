@@ -3,6 +3,9 @@ package commands
 import (
 )
 
+type EmptyValue struct {
+}
+
 type pair struct {
 	key string
 	value interface{}

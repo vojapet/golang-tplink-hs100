@@ -21,7 +21,7 @@ func Build_System(subQueries ...System_subcommand) pair {
 // {"system":{"get_sysinfo":null}}
 
 func Build_GetSysInfo() System_subcommand {
-	return System_subcommand{key: "get_sysinfo", value: nil}
+	return System_subcommand{key: "get_sysinfo", value: EmptyValue{}}
 }
 
 // Reboot
@@ -177,14 +177,14 @@ func Build_Time(subQueries ...Time_subcommand) pair {
 // {"time":{"get_time":null}}
 
 func Build_GetTime() Time_subcommand {
-	return Time_subcommand{key: "get_time", value: nil}
+	return Time_subcommand{key: "get_time", value: EmptyValue{}}
 }
 
 // Get Timezone
 // {"time":{"get_timezone":null}}
 
 func Build_GetTimezone() Time_subcommand {
-	return Time_subcommand{key: "get_timezone", value: nil}
+	return Time_subcommand{key: "get_timezone", value: EmptyValue{}}
 }
 
 // Set Timezone
@@ -209,14 +209,14 @@ func Build_Emeter(subQueries ...Emeter_subcommand) pair {
 // {"emeter":{"get_realtime":{}}}
 
 func Build_GetRealtime() Emeter_subcommand {
-	return Emeter_subcommand{key: "get_realtime", value: nil}
+	return Emeter_subcommand{key: "get_realtime", value: EmptyValue{}}
 }
 
 // Get EMeter VGain and IGain Settings
 // {"emeter":{"get_vgain_igain":{}}}
 
 func Build_GetVGainIGain() Emeter_subcommand {
-	return Emeter_subcommand{key: "get_vgain_igain", value: nil}
+	return Emeter_subcommand{key: "get_vgain_igain", value: EmptyValue{}}
 }
 
 // Set EMeter VGain and Igain
@@ -248,7 +248,7 @@ func Build_GetMonthStat(year int) Emeter_subcommand {
 // {"emeter":{"erase_emeter_stat":null}}
 
 func Build_EraseEmeterStat() Emeter_subcommand {
-	return Emeter_subcommand{key: "erase_emeter_stat", value: nil}
+	return Emeter_subcommand{key: "erase_emeter_stat", value: EmptyValue{}}
 }
 
 //
